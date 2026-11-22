@@ -1,16 +1,29 @@
-# React + Vite
+# Campus Connect
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Live URL: https://campus-connect-54bf1.web.app
 
-Currently, two official plugins are available:
+A student community platform for skill exchange, study groups, and book discovery.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
+- **Authentication:** Email/Password and Google login.
+- **Protected Routes:** Unauthenticated users are redirected to login.
+- **Community Feed:** Create, delete, and like posts saved in Firestore.
+- **Book Search:** Integration with Open Library API to search for books.
+- **Responsive UI:** Built with Tailwind CSS.
 
-## React Compiler
+## Tech Stack
+React, Vite, Tailwind CSS, Firebase (Auth & Firestore), Open Library API, Vitest, GitHub Actions.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## How it works (Architecture)
+- `AuthContext` listens to Firebase's `onAuthStateChanged` to share login state with all components.
+- `ProtectedRoute` checks this state to secure pages like the Feed and Book Search.
+- Data persistence is handled by Firestore using `onSnapshot` for real-time updates.
+- The Book Search calls the Open Library external API directly.
 
-## Expanding the ESLint configuration
+## Running Locally
+1. `npm install`
+2. `npm run dev`
+3. Note: You will need your own `src/firebase.js` config file to run the database locally.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Testing
+Run `npm run coverage` to see the test suite. Target is >65%.
