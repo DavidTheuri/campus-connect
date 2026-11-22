@@ -40,8 +40,17 @@ export default function Home() {
   return (
     <div className="p-4 max-w-2xl mx-auto">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold">Campus Connect</h1>
-        <button onClick={() => signOut(auth)} className="text-sm text-red-600">Logout</button>
+        <h1 className="text-xl font-bold text-blue-600 cursor-pointer" onClick={() => window.location.href = '/'}>
+          Campus Connect
+        </h1>
+        <div className="flex gap-4 items-center">
+          <button onClick={() => window.location.href = '/books'} className="text-sm text-blue-600 font-semibold">
+            Find Books
+          </button>
+          <button onClick={() => signOut(auth)} className="text-sm text-red-600">
+            Logout
+          </button>
+        </div>
       </div>
 
       <form onSubmit={handlePost} className="bg-white p-4 rounded shadow mb-4">
