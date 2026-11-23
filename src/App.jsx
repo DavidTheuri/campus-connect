@@ -1,7 +1,7 @@
 import React from 'react';
+import BookDetails from './BookDetails';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
-import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Home from './Home';
 import Books from './Books';
@@ -12,8 +12,9 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-          <Route path="/books" element={<ProtectedRoute><Books /></ProtectedRoute>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/books" element={<Books />} />
+          <Route path="/book/*" element={<BookDetails />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
