@@ -1,32 +1,42 @@
-import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function BookDetails() {
-  const { bookId } = useParams();
   const navigate = useNavigate();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        // We ask Open Library for the specific details of this book ID
-        const res = await fetch(`https://openlibrary.org${bookId}.json`);
+        // 1. Get the current URL (e.g., http://localhost:5173/book/works/OL123W)
+        const currentUrl = window.location.href;
+        
+        // 2. Grab everything after "/book" (e.g., /works/OL123W)
+        const bookKey = currentUrl.split('/book')[1]; 
+        
+        if (!bookKey) throw new Error("No book ID found in URL");
+
+        // 3. Fetch the data from Open Library
+        const res = await fetch(`https://openlibrary.org${bookKey}.json`);
+        if (!res.ok) throw new Error("Book data not found");
+        
         const data = await res.json();
         setBook(data);
       } catch (err) {
         console.error(err);
+        setError(err.message);
       }
       setLoading(false);
     };
     fetchBookDetails();
-  }, [bookId]);
+  }, []);
 
   if (loading) return <div className="p-8 text-center">Loading book details...</div>;
+  if (error) return <div className="p-8 text-center text-red-600">Error: {error}</div>;
   if (!book) return <div className="p-8 text-center">Book not found.</div>;
 
-  // Open Library stores descriptions in a few different ways. This handles them all.
   const description = typeof book.description === 'string' 
     ? book.description 
     : book.description?.value || 'No description available for this book.';
